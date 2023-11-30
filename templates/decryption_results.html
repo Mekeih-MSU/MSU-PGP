@@ -1,0 +1,43 @@
+{% extends "base.html" %} {% block navigation %}
+<div class="row align-items-center">
+  <div class="col-auto">
+    <span class="navbar-text text-light"> {{ username }} </span>
+  </div>
+  <div class="col-auto">
+    <form class="form-inline">
+      <button
+        onclick="window.location.href='/logout';"
+        type="button"
+        class="btn btn-danger"
+      >
+        Log Out
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock %} {% block content %}
+<div class="container mt-4 mx-auto text-center" style="word-wrap: break-word">
+  <h1>Decryption Results</h1>
+  <div class="mb-3 col-md-6 mx-auto">
+    {% if decrypted_text %}
+    <p>{{ decrypted_text }}</p>
+    {% else %}
+    <p class="text-danger">Failed to decrypt text!</p>
+    {% endif %}
+  </div>
+  <div class="mb-3">
+    {% if signature_verdict %}
+    <p class="text-success">Successfully verified signature!</p>
+    {% else %}
+    <p class="text-danger">Failed to verify signature!</p>
+    {% endif %}
+  </div>
+  <div class="mb-3">
+    {% if hash_verdict %}
+    <p class="text-success">Text found in hash!</p>
+    {% else %}
+    <p class="text-danger">Failed to find text in hash!</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

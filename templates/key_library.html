@@ -1,0 +1,114 @@
+{% extends "base.html" %} {% block navigation %}
+<div class="row align-items-center">
+  <div class="col-auto">
+    <span class="navbar-text text-light"> {{ username }} </span>
+  </div>
+  <div class="col-auto">
+    <form class="form-inline">
+      <button
+        onclick="window.location.href='/logout';"
+        type="button"
+        class="btn btn-danger"
+      >
+        Log Out
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock %} {% block content%}
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="row">
+        <div class="d-flex justify-content-between align-items-center">
+          <h2>Your keys</h2>
+          <button
+            class="btn btn-primary"
+            onclick="window.location.href='/add_key';"
+          >
+            Add
+          </button>
+        </div>
+      </div>
+
+      {% for entry in user_personal_keys %}
+      <div class="card mb-3">
+        <div class="card-body">
+          <h4>{{ entry.entry_name }}</h4>
+          <p>
+            Public Key:
+            <span class="text-muted">{{ entry.public_key }}</span>
+          </p>
+          <p>
+            Private Key: <span class="text-muted">{{ entry.private_key }}</span>
+          </p>
+
+          <div class="d-flex justify-content-between">
+            <button
+              onclick="window.location.href='/decrypt/{{ entry._id }}';"
+              type="button"
+              class="btn btn-outline-success"
+            >
+              Decrypt
+            </button>
+            <form method="post" action="/delete_key/{{ entry._id }}">
+              <button type="submit" class="btn btn-outline-danger">
+                Delete
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="col-md-6">
+      <div class="row">
+        <div class="d-flex justify-content-between align-items-center">
+          <h2>Contacts</h2>
+          <button
+            class="btn btn-primary"
+            onclick="window.location.href='/add_contact';"
+          >
+            Add
+          </button>
+        </div>
+      </div>
+
+      {% for entry in user_contact_keys %}
+      <div class="card mb-3">
+        <div class="card-body">
+          <h4 class="card-title">{{ entry.entry_name }}</h4>
+          <p class="card-text">
+            Phone Number:
+            <span class="text-muted">{{ entry.phone_number }}</span>
+          </p>
+          <p class="card-text">
+            Email: <span class="text-muted">{{ entry.email }}</span>
+          </p>
+          <p class="card-text">
+            Public Key:
+            <span class="text-muted">{{ entry.public_key }}</span>
+          </p>
+
+          <div class="d-flex justify-content-between">
+            <button
+              onclick="window.location.href='/encrypt/{{ entry._id }}';"
+              type="button"
+              class="btn btn-outline-success"
+            >
+              Encrypt
+            </button>
+            <form method="post" action="/delete_contact/{{ entry._id }}">
+              <button type="submit" class="btn btn-outline-danger">
+                Delete
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

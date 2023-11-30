@@ -1,0 +1,76 @@
+{% extends "base.html" %} {% block navigation %}
+<div class="row align-items-center">
+  <div class="col-auto">
+    <span class="navbar-text text-light"> {{ username }} </span>
+  </div>
+  <div class="col-auto">
+    <form class="form-inline">
+      <button
+        onclick="window.location.href='/logout';"
+        type="button"
+        class="btn btn-danger"
+      >
+        Log Out
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock %} {% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-md-center">
+    <div class="col-md-6">
+      <form method="post" action="/add_contact">
+        <div class="mb-3">
+          <label for="name" class="form-label">Enter Name</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Jane Doe"
+            name="entry_name"
+            autocomplete="off"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="phone-number" class="form-label"
+            >Enter Phone Number</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            placeholder="123-456-7890"
+            name="phone_number"
+            autocomplete="off"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Enter Email</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="email@example.com"
+            name="email"
+            autocomplete="off"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="public-key" class="form-label">Enter Public Key</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="AXC34FGHJK68VBNMBNXCVBNM"
+            name="public_key"
+            autocomplete="off"
+            required
+          />
+        </div>
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
