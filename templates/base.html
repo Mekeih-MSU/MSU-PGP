@@ -4,6 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
+      rel="icon"
+      href="{{ url_for('static', filename='images/landing_page_lock_image.png') }}"
+      type="image/x-icon"
+    />
+    <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
@@ -13,8 +18,25 @@
   </head>
   <body>
     <nav class="navbar navbar-dark bg-primary shadow-sm px-3">
-      <a href="/" class="navbar-brand">MSU PGP</a>
-      {% block navigation %}
+      {% if session %}
+      <a href="/key_library" class="navbar-brand d-flex align-items-center"
+        ><img
+          src="{{ url_for('static', filename='images/landing_page_lock_image.png') }}"
+          alt="Loading..."
+          width="auto"
+          height="23"
+        />MSU PGP</a
+      >
+      {% else %}
+      <a href="/" class="navbar-brand d-flex align-items-center"
+        ><img
+          src="{{ url_for('static', filename='images/landing_page_lock_image.png') }}"
+          alt="Loading..."
+          width="auto"
+          height="23"
+        />MSU PGP</a
+      >
+      {% endif %} {% block navigation %}
       <form class="form-inline">
         <button
           onclick="window.location.href='/login';"
@@ -44,7 +66,7 @@
           &copy; Morgan State University, Inc
         </p>
         <p class="nav col-md-4 justify-content-end px-2 text-muted">
-          By: Mekeih Nelson
+          By: Mekeih Nelson, Gareth Nuyit, Darrius Outlaw, Kye Toussant
         </p>
       </footer>
     </div>

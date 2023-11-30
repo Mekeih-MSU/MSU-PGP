@@ -29,6 +29,15 @@
           <button type="submit" class="btn btn-primary">Submit</button>
         </div>
       </form>
+      {% if wrong_password %}
+      <div class="mb-3 text-center">
+        <p class="text-danger">Invalid password!</p>
+      </div>
+      {% endif %} {% if user_not_found %}
+      <div class="mb-3 text-center">
+        <p class="text-danger">User not found!</p>
+      </div>
+      {% endif %}
     </div>
   </div>
 </div>

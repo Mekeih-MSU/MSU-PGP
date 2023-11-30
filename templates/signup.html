@@ -30,6 +30,11 @@
           <button type="submit" class="btn btn-primary">Submit</button>
         </div>
       </form>
+      {% if already_user %}
+      <div class="mb-3 text-center">
+        <p class="text-danger">Username already registered. Try logging in!</p>
+      </div>
+      {% endif %}
     </div>
   </div>
 </div>

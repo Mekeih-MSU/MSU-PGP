@@ -28,7 +28,7 @@ def signup():
         return redirect('/key_library')
 
     if request.method == "GET":
-        return render_template('signup.html')
+        return render_template('signup.html', already_user=False)
     
     if request.method == "POST":
         users = mongo.db.users
@@ -47,10 +47,10 @@ def signup():
             users.insert_one({'name': username, 'password': hashed})
             #store username in session
             session['username'] = request.form['username']
-            return redirect(url_for('index'))
+            return redirect('/key_library')
 
         else:
-            return 'Username already registered.  Try logging in.'
+            return render_template('signup.html', already_user=True)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -59,7 +59,7 @@ def login():
         return redirect('/key_library')
 
     if request.method == "GET":
-        return render_template('login.html')
+        return render_template('login.html', wrong_password=False, user_not_found=False)
     
     if request.method == "POST":
         users = mongo.db.users
@@ -74,11 +74,11 @@ def login():
             if bcrypt.checkpw(password, db_password):
                 #store username in session
                 session['username'] = request.form['username']
-                return redirect(url_for('index'))
+                return redirect('/key_library')
             else:
-                return 'Invalid username/password combination.'
+                return render_template('login.html', wrong_password=True, user_not_found=False)
         else:
-            return 'User not found.'
+            return render_template('login.html', wrong_password=False, user_not_found=True)
 
 
 @app.route("/logout")
