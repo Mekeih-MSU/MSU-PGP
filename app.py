@@ -171,26 +171,35 @@ def delete_key(key_id):
     return redirect('/key_library')
 
 
-@app.route("/encrypt/<key_id>", methods=["GET", "POST"])
+@app.route("/encrypt/<key_id>")
 def encrypt(key_id):
     if not session:
         return redirect('/')
     
     username = session['username']
 
-    if request.method == "GET":
-        personal_keys = mongo.db.personal_keys
-        user_personal_keys = personal_keys.find({"owner":username}).sort('entry_name')
+    personal_keys = mongo.db.personal_keys
+    user_personal_keys = personal_keys.find({"owner":username}).sort('entry_name')
 
-        contact_keys = mongo.db.contact_keys
-        user_contact_keys = contact_keys.find({"owner":username}).sort('entry_name')
+    contact_keys = mongo.db.contact_keys
+    user_contact_keys = contact_keys.find({"owner":username}).sort('entry_name')
 
-        return render_template('encrypt.html', 
-                               username=username, 
-                               key_id=key_id, 
-                               user_personal_keys=user_personal_keys, 
-                               user_contact_keys=user_contact_keys)
-        
+    return render_template('encrypt.html', 
+                            username=username, 
+                            key_id=key_id, 
+                            user_personal_keys=user_personal_keys, 
+                            user_contact_keys=user_contact_keys)
+
+
+@app.route("/encryption_results/<key_id>", methods=["GET", "POST"])
+def encryption_results(key_id):
+    if not session:
+        return redirect('/')
+    
+    username = session['username']
+    encrypted_text = ""
+    signature_verdict = False
+
     if request.method == "POST":
         plaintext = request.form['text']
 
@@ -223,31 +232,40 @@ def encrypt(key_id):
                 "ciphertext": plaintext, 
                 "signature": signature})
 
-        return render_template('encryption_results.html',
-                               username=username,
-                               encrypted_text=encrypted_text,
-                               signature_verdict=signature_verdict)
+    return render_template('encryption_results.html',
+                            username=username,
+                            encrypted_text=encrypted_text,
+                            signature_verdict=signature_verdict)
 
-
-@app.route("/decrypt/<key_id>", methods=["GET", "POST"])
+@app.route("/decrypt/<key_id>")
 def decrypt(key_id):
     if not session:
         return redirect('/')
     
     username = session['username']
 
-    if request.method == "GET":
-        personal_keys = mongo.db.personal_keys
-        user_personal_keys = personal_keys.find({"owner":username}).sort('entry_name')
+    personal_keys = mongo.db.personal_keys
+    user_personal_keys = personal_keys.find({"owner":username}).sort('entry_name')
 
-        contact_keys = mongo.db.contact_keys
-        user_contact_keys = contact_keys.find({"owner":username}).sort('entry_name')
+    contact_keys = mongo.db.contact_keys
+    user_contact_keys = contact_keys.find({"owner":username}).sort('entry_name')
 
-        return render_template('decrypt.html', 
-                               username=username, 
-                               key_id=key_id, 
-                               user_personal_keys=user_personal_keys, 
-                               user_contact_keys=user_contact_keys)
+    return render_template('decrypt.html', 
+                            username=username, 
+                            key_id=key_id, 
+                            user_personal_keys=user_personal_keys, 
+                            user_contact_keys=user_contact_keys)
+
+
+@app.route("/decryption_results/<key_id>", methods=["GET", "POST"])
+def decryption_results(key_id):
+    if not session:
+        return redirect('/')
+    
+    username = session['username']
+    decrypted_text = ""
+    signature_verdict = False
+    hash_verdict = False
 
     if request.method == "POST":
         ciphertext = request.form['text']
@@ -284,11 +302,11 @@ def decrypt(key_id):
                     public_key=signature_public_key,
                     signature=sig_code)
 
-        return render_template('decryption_results.html',
-                               username=username,
-                               decrypted_text=decrypted_text, 
-                               signature_verdict=signature_verdict,
-                               hash_verdict=hash_verdict)
+    return render_template('decryption_results.html',
+                            username=username,
+                            decrypted_text=decrypted_text, 
+                            signature_verdict=signature_verdict,
+                            hash_verdict=hash_verdict)
 
 
 if __name__ == "__main__":
