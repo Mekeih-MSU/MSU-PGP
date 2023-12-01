@@ -192,10 +192,7 @@ def encrypt(key_id):
 
 
 @app.route("/encryption_results/<key_id>", methods=["GET", "POST"])
-def encryption_results(key_id):
-    if not session:
-        return redirect('/')
-    
+def encryption_results(key_id):    
     username = session['username']
     encrypted_text = ""
     signature_verdict = False
@@ -259,9 +256,6 @@ def decrypt(key_id):
 
 @app.route("/decryption_results/<key_id>", methods=["GET", "POST"])
 def decryption_results(key_id):
-    if not session:
-        return redirect('/')
-    
     username = session['username']
     decrypted_text = ""
     signature_verdict = False
